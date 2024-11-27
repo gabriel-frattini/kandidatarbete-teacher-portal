@@ -1,0 +1,19 @@
+<%- include('partials/header.ejs') %>
+
+<form action="/new" method="post">
+  <input type="text" name="course" placeholder="Course" required />
+  <ul class="questions">
+    <li class="question">
+      <input type="text" name="question" placeholder="Question 1" required />
+    </li>
+  </ul>
+  <div class="options">
+    <input id="removeQ" type="button" value="Remove Question" />
+    <input id="newQ" type="button" value="Add Question" />
+  </div>
+
+  <input id="submit" type="submit" value="Make Tenta" />
+</form>
+
+<script src="new.js"></script>
+<%- include('partials/footer.ejs') %>
