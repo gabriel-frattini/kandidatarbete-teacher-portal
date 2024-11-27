@@ -1,0 +1,20 @@
+<%- include('partials/header.ejs') %>
+<div class="container">
+  <% data.forEach((tenta) => { %>
+  <div class="card" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title"><%= tenta.course %></h5>
+      <p class="card-text">
+        <ul>
+          <% Object.keys(tenta.questions).forEach((key) => { %>
+            <li><%= tenta.questions[key] %></li>
+          <% }); %>
+        </ul>
+      </p>
+      <a href="#" class="card-link">View Students</a>
+      <a href="#" class="card-link">Edit questions</a>
+    </div>
+  </div>
+  <% }); %>
+</div>
+<%- include('partials/footer.ejs') %>

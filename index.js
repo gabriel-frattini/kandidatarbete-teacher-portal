@@ -40,8 +40,7 @@ app.get("/new", (req, res) => {
   res.render("new.ejs");
 });
 app.post("/new", async (req, res) => {
-  console.log(req.body);
-  let message = "Added Tenta";
+  let message = "Added tenta";
   try {
     const newRef = await db.ref("tentor").push(req.body);
   } catch (error) {
@@ -50,8 +49,18 @@ app.post("/new", async (req, res) => {
   }
   res.render("admin.ejs", { message: message });
 });
-app.get("/showall", (req, res) => {
-  res.send("showall");
+
+app.get("/showall", async (req, res) => {
+  try {
+    const snapshot = await db.ref("tentor").once("value");
+    const data = snapshot.val();
+    // Convert the object of objects to an array of objects
+    const dataArray = Object.keys(data).map((key) => ({
+      ...data[key],
+      id: key,
+    }));
+    res.render("showall.ejs", { data: dataArray });
+  } catch (error) {}
 });
 
 app.listen(PORT, () => {

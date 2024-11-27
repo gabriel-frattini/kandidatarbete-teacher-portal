@@ -1,7 +1,7 @@
 document.querySelector("#newQ").addEventListener("click", () => {
   const questions = document.querySelectorAll(".question");
   const input = document.createElement("input");
-  input.setAttribute("name", `question`);
+  input.setAttribute("name", `questions`);
   input.setAttribute("placeholder", `Question ${questions.length + 1}`);
   input.setAttribute("required", "");
   const li = document.createElement("li");
