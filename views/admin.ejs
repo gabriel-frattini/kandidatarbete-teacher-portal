@@ -5,5 +5,6 @@
   <input type="submit" value="Tentor" formaction="/showall" />
   <input type="submit" value="Skapa En Tenta" formaction="/new" />
 </form>
-
-<%- include('partials/footer.ejs') %>
+<% if(locals.message) { %>
+<p><% locals.message %></p>
+<% } %> <%- include('partials/footer.ejs') %>
