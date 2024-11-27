@@ -1,2 +1,6 @@
 .env
+<<<<<<< HEAD
 tentamina.json
+=======
+/node_modules
+>>>>>>> 1d8fdcdc048baba4446a34a19f6f0aa4127689bd
