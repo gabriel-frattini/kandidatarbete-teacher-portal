@@ -7,6 +7,7 @@ import session from "express-session";
 import multer from "multer";
 import { PDFDocument } from "pdf-lib";
 import fs from "fs";
+import { Tenant } from "firebase-admin/auth";
 
 const upload = multer({ dest: "uploads/" });
 dotenv.config();
@@ -38,6 +39,29 @@ const db = getDatabase();
 
 const users = [{ username: "admin", password: "notAdmin" }];
 
+const students = [
+  "ALI123",
+  "HUS456",
+  "CHE789",
+  "OME234",
+  "KIT567",
+  "JOH981",
+  "MAR345",
+  "DAV763",
+  "SUS854",
+  "PET901",
+  "NAN472",
+  "PAU369",
+  "LIN620",
+  "GEO853",
+  "STE542",
+  "JAM765",
+  "KAR908",
+  "MAR134",
+  "BET276",
+  "BRI492",
+];
+
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
@@ -62,6 +86,26 @@ app.get("/logout", isLoggedIn, (req, res) => {
     }
     res.send("Logged out successfully");
   });
+});
+
+app.get("/getExam", async (req, res) => {
+  //console.log(req.query);
+  const tenta = await getTenta(req.query["course"]);
+  if (!tenta) {
+    res.json({ Error: "No such exam" });
+  }
+  const student = tenta.students.filter(
+    (s) => req.query["anonymousCode"] === s
+  );
+  if (student.length) {
+    res.json({
+      examID: tenta.course,
+      anonymousCode: student,
+      questions: tenta.questions,
+    });
+  } else {
+    res.json({ Error: "No a valid student" });
+  }
 });
 
 // Needs check student validifty e.g
@@ -100,7 +144,7 @@ app.get("/new", isLoggedIn, (req, res) => {
 app.post("/new", isLoggedIn, async (req, res) => {
   let message = "Added tenta";
   try {
-    const newRef = await db.ref("tentor").push(req.body);
+    const newRef = await db.ref("tentor").push({ ...req.body, students });
   } catch (error) {
     message = error.message;
     res.status(500);
@@ -129,6 +173,14 @@ const getTentor = async () => {
     console.log(`Error: ${error.message}`);
     return {};
   }
+};
+
+const getTenta = async (examID) => {
+  const tentor = await getTentor();
+  const tenta = Object.keys(tentor).filter(
+    (exam) => tentor[exam].course === examID
+  );
+  return tentor[tenta];
 };
 
 function isLoggedIn(req, res, next) {
