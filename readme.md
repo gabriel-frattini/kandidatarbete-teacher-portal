@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Install `node`. Ensure it is installed globally or as a development dependency.
+- Install `node`.
 
 ## Steps to Run the Portal
 
