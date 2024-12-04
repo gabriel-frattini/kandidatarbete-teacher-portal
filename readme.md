@@ -17,10 +17,11 @@ In the root directory, create a file named `.env` and add the following variable
 - `DATABASE_URL`: Your Firebase Realtime Database URL. This can be found in your Firebase project under **Realtime Database** (you may need to create one if it doesn’t exist).
 - `SESSION_SECRET`: A secret key for sessions. You can either create one yourself or generate it using a key generator like [this one](https://theorangeone.net/projects/django-secret-key-generator/).
 
-**Example `.env` file:**
-DATABASE_URL=<Your Firebase Database URL>
+Example `.env` file:
 
-SESSION_SECRET=<Your Generated Session Key>
+DATABASE_URL=(Your Firebase Database URL)
+
+SESSION_SECRET=(Your Generated Session Key)
 
 ### 3. Generate Firebase Service Account Key
 
