@@ -98,9 +98,10 @@ app.get("/getExam", async (req, res) => {
     (s) => req.query["anonymousCode"] === s
   );
   if (student.length) {
+    console.log("suf");
     res.json({
       examID: tenta.course,
-      anonymousCode: student,
+      anonymousCode: student[0],
       questions: tenta.questions,
     });
   } else {
