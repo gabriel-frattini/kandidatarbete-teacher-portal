@@ -40,26 +40,26 @@ const db = getDatabase();
 const users = [{ username: "admin", password: "notAdmin" }];
 
 const students = [
-  "ALI123",
-  "HUS456",
-  "CHE789",
-  "OME234",
-  "KIT567",
-  "JOH981",
-  "MAR345",
-  "DAV763",
-  "SUS854",
-  "PET901",
-  "NAN472",
-  "PAU369",
-  "LIN620",
-  "GEO853",
-  "STE542",
-  "JAM765",
-  "KAR908",
-  "MAR134",
-  "BET276",
-  "BRI492",
+  { anonymousCode: "ALI123", fullName: "Ali Smith", birthYear: 1998 },
+  { anonymousCode: "HUS456", fullName: "Hussein Ahmed", birthYear: 1995 },
+  { anonymousCode: "CHE789", fullName: "Chelsea Johnson", birthYear: 2001 },
+  { anonymousCode: "OME234", fullName: "Omar Brown", birthYear: 1996 },
+  { anonymousCode: "KIT567", fullName: "Kit Williams", birthYear: 2000 },
+  { anonymousCode: "JOH981", fullName: "John Doe", birthYear: 1997 },
+  { anonymousCode: "MAR345", fullName: "Martha Clarke", birthYear: 1999 },
+  { anonymousCode: "DAV763", fullName: "David Taylor", birthYear: 2002 },
+  { anonymousCode: "SUS854", fullName: "Susan Green", birthYear: 2003 },
+  { anonymousCode: "PET901", fullName: "Peter White", birthYear: 2000 },
+  { anonymousCode: "NAN472", fullName: "Nancy Clark", birthYear: 1998 },
+  { anonymousCode: "PAU369", fullName: "Paul Roberts", birthYear: 1995 },
+  { anonymousCode: "LIN620", fullName: "Linda Lee", birthYear: 2001 },
+  { anonymousCode: "GEO853", fullName: "George Harris", birthYear: 1999 },
+  { anonymousCode: "STE542", fullName: "Steven Walker", birthYear: 1997 },
+  { anonymousCode: "JAM765", fullName: "James White", birthYear: 2000 },
+  { anonymousCode: "KAR908", fullName: "Karla Johnson", birthYear: 2002 },
+  { anonymousCode: "MAR134", fullName: "Marion Jackson", birthYear: 1996 },
+  { anonymousCode: "BET276", fullName: "Beth Evans", birthYear: 2003 },
+  { anonymousCode: "BRI492", fullName: "Brian Anderson", birthYear: 2002 },
 ];
 
 app.get("/", (req, res) => {
@@ -89,23 +89,23 @@ app.get("/logout", isLoggedIn, (req, res) => {
 });
 
 app.get("/getExam", async (req, res) => {
-  //console.log(req.query);
-  const tenta = await getTenta(req.query["course"]);
+  console.log(req.query);
+  const tenta = await getTenta(req.query["courseCode"]);
   if (!tenta) {
     res.json({ Error: "No such exam" });
   }
   const student = tenta.students.filter(
-    (s) => req.query["anonymousCode"] === s
+    (s) => req.query["anonymousCode"] === s.anonymousCode
   );
+
   if (student.length) {
-    console.log("suf");
     res.json({
       examID: tenta.course,
       anonymousCode: student[0],
       questions: tenta.questions,
     });
   } else {
-    res.json({ Error: "No a valid student" });
+    res.json({ Error: "Not a valid student" });
   }
 });
 
