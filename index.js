@@ -39,29 +39,6 @@ const db = getDatabase();
 
 const users = [{ username: "admin", password: "notAdmin" }];
 
-const students = [
-  { anonymousCode: "ALI123", fullName: "Ali Smith", birthYear: 1998 },
-  { anonymousCode: "HUS456", fullName: "Hussein Ahmed", birthYear: 1995 },
-  { anonymousCode: "CHE789", fullName: "Chelsea Johnson", birthYear: 2001 },
-  { anonymousCode: "OME234", fullName: "Omar Brown", birthYear: 1996 },
-  { anonymousCode: "KIT567", fullName: "Kit Williams", birthYear: 2000 },
-  { anonymousCode: "JOH981", fullName: "John Doe", birthYear: 1997 },
-  { anonymousCode: "MAR345", fullName: "Martha Clarke", birthYear: 1999 },
-  { anonymousCode: "DAV763", fullName: "David Taylor", birthYear: 2002 },
-  { anonymousCode: "SUS854", fullName: "Susan Green", birthYear: 2003 },
-  { anonymousCode: "PET901", fullName: "Peter White", birthYear: 2000 },
-  { anonymousCode: "NAN472", fullName: "Nancy Clark", birthYear: 1998 },
-  { anonymousCode: "PAU369", fullName: "Paul Roberts", birthYear: 1995 },
-  { anonymousCode: "LIN620", fullName: "Linda Lee", birthYear: 2001 },
-  { anonymousCode: "GEO853", fullName: "George Harris", birthYear: 1999 },
-  { anonymousCode: "STE542", fullName: "Steven Walker", birthYear: 1997 },
-  { anonymousCode: "JAM765", fullName: "James White", birthYear: 2000 },
-  { anonymousCode: "KAR908", fullName: "Karla Johnson", birthYear: 2002 },
-  { anonymousCode: "MAR134", fullName: "Marion Jackson", birthYear: 1996 },
-  { anonymousCode: "BET276", fullName: "Beth Evans", birthYear: 2003 },
-  { anonymousCode: "BRI492", fullName: "Brian Anderson", birthYear: 2002 },
-];
-
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
@@ -191,3 +168,102 @@ function isLoggedIn(req, res, next) {
 
   return res.status(401).send("You must be logged in to view this page");
 }
+
+const students = [
+  {
+    anonymousCode: "ALI123",
+    fullName: "Ali Smith",
+    birthID: "1998-12-15-7482",
+  },
+  {
+    anonymousCode: "HUS456",
+    fullName: "Hussein Ahmed",
+    birthID: "1995-09-22-3617",
+  },
+  {
+    anonymousCode: "CHE789",
+    fullName: "Chelsea Johnson",
+    birthID: "2001-02-14-5193",
+  },
+  {
+    anonymousCode: "OME234",
+    fullName: "Omar Brown",
+    birthID: "1996-03-05-2301",
+  },
+  {
+    anonymousCode: "KIT567",
+    fullName: "Kit Williams",
+    birthID: "2000-05-21-8532",
+  },
+  { anonymousCode: "JOH981", fullName: "John Doe", birthID: "1997-12-30-4861" },
+  {
+    anonymousCode: "MAR345",
+    fullName: "Martha Clarke",
+    birthID: "1999-08-14-7276",
+  },
+  {
+    anonymousCode: "DAV763",
+    fullName: "David Taylor",
+    birthID: "2002-04-22-1934",
+  },
+  {
+    anonymousCode: "SUS854",
+    fullName: "Susan Green",
+    birthID: "2003-03-01-6247",
+  },
+  {
+    anonymousCode: "PET901",
+    fullName: "Peter White",
+    birthID: "2000-02-15-4856",
+  },
+  {
+    anonymousCode: "NAN472",
+    fullName: "Nancy Clark",
+    birthID: "1998-12-07-9321",
+  },
+  {
+    anonymousCode: "PAU369",
+    fullName: "Paul Roberts",
+    birthID: "1995-09-05-1789",
+  },
+  {
+    anonymousCode: "LIN620",
+    fullName: "Linda Lee",
+    birthID: "2001-01-10-3032",
+  },
+  {
+    anonymousCode: "GEO853",
+    fullName: "George Harris",
+    birthID: "1999-08-25-6523",
+  },
+  {
+    anonymousCode: "STE542",
+    fullName: "Steven Walker",
+    birthID: "1997-12-14-4892",
+  },
+  {
+    anonymousCode: "JAM765",
+    fullName: "James White",
+    birthID: "2000-01-30-7265",
+  },
+  {
+    anonymousCode: "KAR908",
+    fullName: "Karla Johnson",
+    birthID: "2002-08-16-5021",
+  },
+  {
+    anonymousCode: "MAR134",
+    fullName: "Marion Jackson",
+    birthID: "1996-03-07-6819",
+  },
+  {
+    anonymousCode: "BET276",
+    fullName: "Beth Evans",
+    birthID: "2003-03-12-3467",
+  },
+  {
+    anonymousCode: "BRI492",
+    fullName: "Brian Anderson",
+    birthID: "2002-04-09-3982",
+  },
+];
