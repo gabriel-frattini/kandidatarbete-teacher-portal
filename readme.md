@@ -48,7 +48,10 @@ In Android Studio:
 
 1. Open the ServerHandler.kt file and update the HOST variable with your IP address.
 2. Navigate to the res/xml/network_security_config.xml file and locate this line:
-   "<domain includeSubdomains="true">x</domain>"
+
+```bash
+<domain includeSubdomains="true">x</domain>
+```
 
 - Replace x with your IP address.
 
