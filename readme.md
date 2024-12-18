@@ -23,9 +23,10 @@ In the root directory, create a file named `.env` and add the following variable
 
 Example `.env` file:
 
+```bash
 DATABASE_URL=(Your Firebase Database URL)
-
 SESSION_SECRET=(Your Generated Session Key)
+```
 
 ### 3. Generate Firebase Service Account Key
 
@@ -62,7 +63,7 @@ In Android Studio:
 1. Open the ServerHandler.kt file and update the HOST variable with your IP address.
 
 ```bash
-private val HOST = "0.0.0.00"
+private val HOST = "x"
 ```
 
 2. Navigate to the res/xml/network_security_config.xml file and locate this line:
