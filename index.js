@@ -132,11 +132,15 @@ app.post("/new", isLoggedIn, async (req, res) => {
 
 app.get("/showall", isLoggedIn, async (req, res) => {
   const data = await getTentor();
-  const dataArray = Object.keys(data).map((key) => ({
-    ...data[key],
-    id: key,
-  }));
-  res.render("showall.ejs", { data: dataArray });
+  if (data) {
+    const dataArray = Object.keys(data).map((key) => ({
+      ...data[key],
+      id: key,
+    }));
+    res.render("showall.ejs", { data: dataArray });
+  } else {
+    res.render("showall.ejs");
+  }
 });
 
 app.listen(PORT, () => {
