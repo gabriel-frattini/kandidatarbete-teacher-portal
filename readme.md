@@ -29,6 +29,48 @@ SESSION_SECRET=(Your Generated Session Key)
 2. Click **Generate New Private Key** to download the key as a JSON file.
 3. Save the file to your project directory and rename it to: tentamina.json
 
-### 4. Run the Project
+### 4. Find Your IP Address
 
-Start the application using `node index.js`.
+Make sure the computer running the server and the Android tablet are on the same network. Find your IP address as follows:
+
+- Mac: Open your terminal and type:
+
+* ipconfig getifaddr en0
+
+- Windows:
+
+1. Open Command Prompt.
+2. Run: ipconfig
+3. Look for the IPv4 Address under your active network connection.
+
+### 5. Set Your IP Address
+
+Update the IP address in the following locations:
+In Android Studio:
+
+1. Open the ServerHandler.kt file and update the HOST variable with your IP address.
+2. Navigate to the res/xml/network_security_config.xml file and locate this line:
+
+- <domain includeSubdomains="true">x</domain>
+
+* Replace x with your IP address.
+
+### 6. Run the Project
+
+Start the server by running the following command in your terminal:
+
+- node index.js
+
+### 7. Create a Tenta
+
+1. In your browser, go to:
+
+- localhost:3000
+
+2. Log in to the portal and create a tenta. (username: admin, password: notAdmin)
+3. Verify in Firebase that the tenta has been successfully created.
+
+### 8. Connect the Tablet to the Tenta
+
+1. On the Android tablet, open the app and log in using the tenta name you created.
+2. Use one of the hardcoded student credentials to log in.
