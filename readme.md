@@ -33,9 +33,7 @@ SESSION_SECRET=(Your Generated Session Key)
 
 Make sure the computer running the server and the Android tablet are on the same network. Find your IP address as follows:
 
-- Mac: Open your terminal and type:
-
-* ipconfig getifaddr en0
+- Mac: Open your terminal and type: "ipconfig getifaddr en0"
 
 - Windows:
 
@@ -50,10 +48,9 @@ In Android Studio:
 
 1. Open the ServerHandler.kt file and update the HOST variable with your IP address.
 2. Navigate to the res/xml/network_security_config.xml file and locate this line:
+   "<domain includeSubdomains="true">x</domain>"
 
-- <domain includeSubdomains="true">x</domain>
-
-* Replace x with your IP address.
+- Replace x with your IP address.
 
 ### 6. Run the Project
 
@@ -63,10 +60,7 @@ Start the server by running the following command in your terminal:
 
 ### 7. Create a Tenta
 
-1. In your browser, go to:
-
-- localhost:3000
-
+1. In your browser, go to: "localhost:3000"
 2. Log in to the portal and create a tenta. (username: admin, password: notAdmin)
 3. Verify in Firebase that the tenta has been successfully created.
 
