@@ -8,7 +8,11 @@
 
 ### 1. Initialize the Project
 
-Initialize the project by running `npm install` in your terminal.
+In your terminal, initialize the project by running:
+
+```bash
+npm install
+```
 
 ### 2. Create an `.env` File
 
@@ -33,12 +37,21 @@ SESSION_SECRET=(Your Generated Session Key)
 
 Make sure the computer running the server and the Android tablet are on the same network. Find your IP address as follows:
 
-- Mac: Open your terminal and type: "ipconfig getifaddr en0"
+- Mac: Open your terminal and type:
+
+```bash
+ipconfig getifaddr en0
+```
 
 - Windows:
 
 1. Open Command Prompt.
-2. Run: ipconfig
+2. Run:
+
+```bash
+ipconfig
+```
+
 3. Look for the IPv4 Address under your active network connection.
 
 ### 5. Set Your IP Address
@@ -47,6 +60,11 @@ Update the IP address in the following locations:
 In Android Studio:
 
 1. Open the ServerHandler.kt file and update the HOST variable with your IP address.
+
+```bash
+private val HOST = "0.0.0.00"
+```
+
 2. Navigate to the res/xml/network_security_config.xml file and locate this line:
 
 ```bash
@@ -59,7 +77,9 @@ In Android Studio:
 
 Start the server by running the following command in your terminal:
 
-- node index.js
+```bash
+node index.js
+```
 
 ### 7. Create a Tenta
 
