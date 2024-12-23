@@ -1,0 +1,30 @@
+<%- include('partials/header.ejs') %>
+
+<div class="container mt-5">
+  <h1 class="display-4 text-center"><%= course %> - Download PDF</h1>
+
+  <% if (locals.students && locals.students.length > 0) { %>
+  <div class="list-group mt-4">
+    <% locals.students.forEach(e => { %>
+    <div
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <span><%= e %></span>
+      <a
+        href="/uploads/<%= course %>_<%= e %>.pdf"
+        class="btn btn-primary"
+        download
+      >
+        Download
+      </a>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <div class="alert alert-warning mt-4" role="alert">
+    No students are currently enrolled in this course.
+  </div>
+  <% } %>
+</div>
+
+<%- include('partials/footer.ejs') %>

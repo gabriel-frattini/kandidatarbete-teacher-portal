@@ -1,3 +1,4 @@
 .env
 tentamina.json
 /uploads/
+public/uploads/

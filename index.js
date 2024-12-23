@@ -7,14 +7,17 @@ import session from "express-session";
 import multer from "multer";
 import { PDFDocument } from "pdf-lib";
 import fs from "fs";
-import { Tenant } from "firebase-admin/auth";
+import { ref, get, set, update, push } from "firebase/database";
+import path from "path";
 
-const upload = multer({ dest: "uploads/" });
 dotenv.config();
 const app = express();
 const PORT = 3000;
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const upload = multer({ dest: path.join(__dirname, "public", "uploads") });
 
 app.use(express.static("public"));
+app.use(express.static("uploads"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -39,6 +42,11 @@ const db = getDatabase();
 
 const users = [{ username: "admin", password: "notAdmin" }];
 
+const uploadsDir = path.join(__dirname, "public", "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
@@ -61,7 +69,7 @@ app.get("/logout", isLoggedIn, (req, res) => {
     if (err) {
       return res.status(500).send("Failed to log out");
     }
-    res.send("Logged out successfully");
+    res.redirect("/");
   });
 });
 
@@ -98,23 +106,52 @@ app.post("/submit", upload.single("file"), async (req, res) => {
   // Check if the file is a PDF
   try {
     const fileBuffer = fs.readFileSync(file.path);
-    const pdfDoc = await PDFDocument.load(fileBuffer); // Validate if it can load as a PDF
+    const pdfDoc = await PDFDocument.load(fileBuffer);
 
-    // Save the file as a PDF in a permanent location
-    const destinationPath = `uploads/${file.originalname}`;
-    fs.renameSync(file.path, destinationPath); // Move file to permanent location
+    // Save the file as a PDF in the "public/uploads" directory
+    const destinationPath = path.join(uploadsDir, `${course}_${username}.pdf`);
+    fs.renameSync(file.path, destinationPath);
 
     console.log("File:", file);
     console.log("Course:", course);
     console.log("Username:", username);
+    addStudentToSubmitted(course, username);
     res.status(200).send("PDF uploaded successfully");
   } catch (error) {
-    // Handle non-PDF file
     console.error("File is not a valid PDF:", error.message);
-    fs.unlinkSync(file.path); // Remove the invalid file
+    fs.unlinkSync(file.path);
     res.status(400).send("Uploaded file is not a valid PDF");
   }
 });
+
+async function addStudentToSubmitted(courseId, studentName) {
+  const courseRef = ref(db, `submitted/${courseId}/students`);
+
+  try {
+    // Fetch the current list of students for the course
+    const snapshot = await get(courseRef);
+
+    if (snapshot.exists()) {
+      // If the course exists, add or update the student's name as a key
+      await update(courseRef, {
+        [studentName]: true,
+      });
+      console.log(
+        `Added or updated student ${studentName} in course ${courseId}`
+      );
+    } else {
+      // If the course does not exist, create the course and add the student
+      await set(courseRef, {
+        [studentName]: true,
+      });
+      console.log(
+        `Created course ${courseId} and added first student ${studentName}`
+      );
+    }
+  } catch (error) {
+    console.error("Error adding student to submitted:", error);
+  }
+}
 
 app.get("/new", isLoggedIn, (req, res) => {
   res.render("new.ejs");
@@ -137,9 +174,33 @@ app.get("/showall", isLoggedIn, async (req, res) => {
       ...data[key],
       id: key,
     }));
+    console.log(dataArray);
     res.render("showall.ejs", { data: dataArray });
   } else {
     res.render("showall.ejs");
+  }
+});
+
+app.get("/students/:course?", isLoggedIn, async (req, res) => {
+  const course = req.params.course;
+  try {
+    const snapshot = await db.ref("submitted").once("value");
+    const data = snapshot.val();
+
+    const students = Object.keys(data[course].students);
+    console.log(students);
+    if (!students) {
+    }
+    const info = {
+      course: course,
+      students: students,
+    };
+    console.log("Info Object:", info);
+
+    res.render("students.ejs", info);
+  } catch (error) {
+    console.log(`Error: ${error.message}`);
+    res.render("students.ejs", { course: course });
   }
 });
 
