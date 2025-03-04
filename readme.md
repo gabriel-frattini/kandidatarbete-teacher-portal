@@ -41,8 +41,7 @@ Make sure the computer running the server and the Android tablet are on the same
 - Mac: Open your terminal and type:
 
 ```bash
-ipconfig getifaddr en0
-```
+z```
 
 - Windows:
 
