@@ -87,7 +87,7 @@ app.get("/getExam", async (req, res) => {
     res.json({
       examID: tenta.course,
       anonymousCode: student[0],
-      questions: tenta.questions,
+      questions: Array.isArray(tenta.questions) ? tenta.questions : [tenta.questions],
     });
   } else {
     res.json({ Error: "Not a valid student" });
