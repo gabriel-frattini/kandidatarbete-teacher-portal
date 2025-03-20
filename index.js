@@ -77,20 +77,20 @@ app.get("/getExam", async (req, res) => {
   console.log(req.query);
   const tenta = await getTenta(req.query["courseCode"]);
   if (!tenta) {
-    res.json({ Error: "No such exam" });
+    return res.json({ Error: "No such exam" });
   }
   const student = tenta.students.filter(
     (s) => req.query["anonymousCode"] === s.anonymousCode
   );
 
   if (student.length) {
-    res.json({
+    return res.json({
       examID: tenta.course,
       anonymousCode: student[0],
       questions: Array.isArray(tenta.questions) ? tenta.questions : [tenta.questions],
     });
   } else {
-    res.json({ Error: "Not a valid student" });
+    return res.json({ Error: "Not a valid student" });
   }
 });
 
@@ -159,7 +159,16 @@ app.get("/new", isLoggedIn, (req, res) => {
 app.post("/new", isLoggedIn, async (req, res) => {
   let message = "Added tenta";
   try {
-    const newRef = await db.ref("tentor").push({ ...req.body, students });
+    console.log("req.body ", req.body);
+    const data = req.body;
+    const types = req.body.type;
+    delete data.type;
+    for (let i = 0; i < types.length; i++) {
+      data.questions[i] = { label: data.questions[i], type: types[i] };
+    }
+    console.log("data in ", data);
+
+    const newRef = await db.ref("tentor").push({ ...data, students });
   } catch (error) {
     message = error.message;
     res.status(500);
