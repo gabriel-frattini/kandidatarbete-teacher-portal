@@ -159,7 +159,22 @@ app.get("/new", isLoggedIn, (req, res) => {
 app.post("/new", isLoggedIn, async (req, res) => {
   let message = "Added tenta";
   try {
-    const newRef = await db.ref("tentor").push({ ...req.body, students });
+    const exam = { ...req.body, students }
+    let taken = []
+    for (let i = 0; i < exam.students.length; i++) {
+      let digits = Math.floor(1000 + Math.random() * 9000);
+      let letters = () => [...Array(3)].map(() => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
+      
+      let code = `${exam.course}-${digits}-${letters()}`
+      code = code.toUpperCase();
+      
+      if (taken.includes(code)) {
+        i--;
+      } else {
+        exam.students[i].anonymousCode = code
+      }
+    }
+    const newRef = await db.ref("tentor").push(exam);
   } catch (error) {
     message = error.message;
     res.status(500);
