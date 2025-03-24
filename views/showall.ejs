@@ -16,20 +16,14 @@
           </h5>
 
           <!-- Questions List -->
-          <% if (tenta.questions && typeof tenta.questions === 'object' &&
-          Object.keys(tenta.questions).length > 1) { %>
+          <% if (tenta.questions && typeof tenta.questions === 'object') { %>
           <ul class="list-unstyled mt-3">
             <% Object.keys(tenta.questions).forEach((key) => { %>
             <li>
-              <i class="bi bi-question-circle"></i> <%= tenta.questions[key] %>
+              <i class="bi bi-question-circle"></i> <%= tenta.questions[key].text %>
             </li>
             <% }); %>
           </ul>
-          <% } else if (tenta.questions && typeof tenta.questions === 'string')
-          { %>
-          <p class="text-muted mt-3">
-            <i class="bi bi-question-circle"></i> <%= tenta.questions %>
-          </p>
           <% } else { %>
           <p class="text-muted mt-3">No questions available.</p>
           <% } %>

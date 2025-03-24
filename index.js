@@ -77,20 +77,20 @@ app.get("/getExam", async (req, res) => {
   console.log(req.query);
   const tenta = await getTenta(req.query["courseCode"]);
   if (!tenta) {
-    res.json({ Error: "No such exam" });
+    return res.json({ Error: "No such exam" });
   }
   const student = tenta.students.filter(
     (s) => req.query["anonymousCode"] === s.anonymousCode
   );
 
   if (student.length) {
-    res.json({
+    return res.json({
       examID: tenta.course,
       anonymousCode: student[0],
       questions: Array.isArray(tenta.questions) ? tenta.questions : [tenta.questions],
     });
   } else {
-    res.json({ Error: "Not a valid student" });
+    return res.json({ Error: "Not a valid student" });
   }
 });
 
@@ -159,22 +159,37 @@ app.get("/new", isLoggedIn, (req, res) => {
 app.post("/new", isLoggedIn, async (req, res) => {
   let message = "Added tenta";
   try {
-    const exam = { ...req.body, students }
+    const data = req.body;
+    console.log("data in", data);
+
+
+    // `questions` and `types` can be either a string or an array from the form data
+    const questionTexts = Array.isArray(data.questions) ? data.questions : [data.questions];
+    const questionTypes = Array.isArray(data.types) ? data.types : [data.types];
+
+    const questions = []
+    for (let i = 0; i < questionTexts.length; i++) {
+      questions[i] = { text: questionTexts[i], type: questionTypes[i] };
+    }
+
+    const tenta = { course: data.course, questions, students };
+
     let taken = []
-    for (let i = 0; i < exam.students.length; i++) {
+    for (let i = 0; i < tenta.students.length; i++) {
       let digits = Math.floor(1000 + Math.random() * 9000);
       let letters = () => [...Array(3)].map(() => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
       
-      let code = `${exam.course}-${digits}-${letters()}`
+      let code = `${tenta.course}-${digits}-${letters()}`
       code = code.toUpperCase();
       
       if (taken.includes(code)) {
         i--;
       } else {
-        exam.students[i].anonymousCode = code
+        tenta.students[i].anonymousCode = code
       }
     }
-    const newRef = await db.ref("tentor").push(exam);
+
+    const newRef = await db.ref("tentor").push(tenta);
   } catch (error) {
     message = error.message;
     res.status(500);
