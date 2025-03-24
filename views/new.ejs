@@ -25,15 +25,19 @@
             <div class="mb-3">
               <label class="form-label">Questions</label>
               <ul class="list-unstyled questions-list">
-                <li class="questions">
-                  <input
-                    type="text"
-                    name="questions"
-                    class="form-control mb-2"
-                    placeholder="Question 1"
-                    required
-                  />
-                </li>
+              <li class="questions row">
+              <input
+                type="text"
+                name="questions"
+                class="form-control col"
+                placeholder="Question 1"
+                required
+              />
+              <select required class="form-select col" aria-label="Default select example" style="max-width: fit-content;" name="types">
+                <option value="draw">Draw</option>
+                <option value="text">Text</option>
+              </select>
+            </li>
               </ul>
             </div>
 
