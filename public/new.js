@@ -1,3 +1,4 @@
+
 document.querySelector("#newQ").addEventListener("click", () => {
   const questions = document.querySelectorAll(".questions");
 
@@ -5,7 +6,13 @@ document.querySelector("#newQ").addEventListener("click", () => {
   input.setAttribute("name", "questions");
   input.setAttribute("placeholder", `Question ${questions.length + 1}`);
   input.setAttribute("required", "");
+  input.setAttribute("readonly","true");
+  input.style.color = "black";
+  input.style.backgroundColor = "white";
   input.classList.add("form-control", "mb-2");
+
+
+
 
   const li = document.createElement("li");
   li.setAttribute("class", "questions");

@@ -88,6 +88,9 @@ app.get("/getExam", async (req, res) => {
       examID: tenta.course,
       anonymousCode: student[0],
       questions: Array.isArray(tenta.questions) ? tenta.questions : [tenta.questions],
+      examStartTime: tenta.examStartTime,
+      examEndTime : tenta.examEndTime,
+      examDate: tenta.examDate,
     });
   } else {
     res.json({ Error: "Not a valid student" });

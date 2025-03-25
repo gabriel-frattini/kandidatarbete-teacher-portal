@@ -1,3 +1,5 @@
+
+
 header {
   display: flex;
   justify-content: space-between;
@@ -5,4 +7,20 @@ header {
 }
 .btn {
   margin: 0 5px;
+}
+
+
+input[readonly] {
+  -webkit-text-fill-color: black !important;
+  color: black !important;
+  background-color: white !important;
+  border: 1px solid #ced4da;
+  pointer-events: none;
+  opacity: 1 !important;
+  user-select: text;
+}
+
+input[readonly]:focus {
+  outline: none;
+  box-shadow: none;
 }
