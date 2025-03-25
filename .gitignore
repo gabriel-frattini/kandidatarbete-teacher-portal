@@ -2,3 +2,5 @@
 tentamina.json
 /uploads/
 public/uploads/
+node_modules
+node_modules/
