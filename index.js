@@ -75,10 +75,25 @@ app.get("/logout", isLoggedIn, (req, res) => {
 
 app.get("/getExam", async (req, res) => {
   console.log(req.query);
-  const tenta = await getTenta(req.query["courseCode"]);
+  const courseCode = req.query["courseCode"];
+  const anonymousCode = req.query["anonymousCode"];
+  const tenta = await getTenta(courseCode);
   if (!tenta) {
-    return res.json({ Error: "No such exam" });
+    return res.status(404).json({ Error: "No such exam" });
   }
+  try {
+    const snapshot = await db.ref("submitted").once("value");
+    const data = snapshot.val();
+    // Uncomment this to enable check for already submitted exams
+    // const hasAlreadySubmitted = data[courseCode].students[anonymousCode];
+    // if (hasAlreadySubmitted) {
+    //   return res.status(409).json({ Error: "Student has already submitted the exam" });
+    // }
+  } catch (error) {
+      console.error(`Error: ${error.message}`);
+      return res.status(500).send("Error checking submission status");
+  }
+
   const student = tenta.students.filter(
     (s) => req.query["anonymousCode"] === s.anonymousCode
   );
@@ -93,7 +108,32 @@ app.get("/getExam", async (req, res) => {
       examDate: tenta.examDate,
     });
   } else {
-    return res.json({ Error: "Not a valid student" });
+    return res.status(404).json({ Error: "No such student" });
+  }
+});
+
+app.get("/verifyRecoveryCode", async (req, res) => {
+  const courseCode = req.query["courseCode"];
+  const recoveryCode = req.query["recoveryCode"];
+  if(courseCode === undefined) {
+    return res.status(500).json({ verified: false });
+  }
+
+  const tenta = await getTenta(courseCode);
+  if (!tenta) {
+    return res.status(404).json({ Error: "No such exam" });
+  }
+  if(tenta.recoveryCode === undefined) {
+    console.log("No recovery code needed");
+    return res.json({ verified: true });
+  }
+  if(tenta.recoveryCode !== undefined && tenta.recoveryCode === recoveryCode) {
+    console.log("Verified recovery code");
+    return res.json({ verified: true });
+  }
+  else {
+    console.log("Recovery code not verified");
+    return res.status(400).json({ verified: false });
   }
 });
 
@@ -103,7 +143,7 @@ app.post("/submit", upload.single("file"), async (req, res) => {
   const file = req.file;
 
   if (!file || !course || !username) {
-    return res.status(400).send("Invalid request");
+    return res.status(500).send("Invalid request");
   }
 
   // Check if the file is a PDF
@@ -123,7 +163,7 @@ app.post("/submit", upload.single("file"), async (req, res) => {
   } catch (error) {
     console.error("File is not a valid PDF:", error.message);
     fs.unlinkSync(file.path);
-    res.status(400).send("Uploaded file is not a valid PDF");
+    res.status(500).send("Uploaded file is not a valid PDF");
   }
 });
 
@@ -178,11 +218,14 @@ app.post("/new", isLoggedIn, async (req, res) => {
     const tenta = { course: data.course, questions, students };
 
     let taken = []
+    const digits = () => Math.floor(1000 + Math.random() * 9000);
+    const letters = () => [...Array(3)].map(() => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
+
+    tenta.recoveryCode = `${tenta.course}-${digits()}-${letters()}`.toUpperCase();
+
     for (let i = 0; i < tenta.students.length; i++) {
-      let digits = Math.floor(1000 + Math.random() * 9000);
-      let letters = () => [...Array(3)].map(() => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
       
-      let code = `${tenta.course}-${digits}-${letters()}`
+      let code = `${tenta.course}-${digits()}-${letters()}`
       code = code.toUpperCase();
       
       if (taken.includes(code)) {
