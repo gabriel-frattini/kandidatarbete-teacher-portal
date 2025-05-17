@@ -1,8 +1,8 @@
 <%- include('partials/header.ejs') %>
 
-<div class="container mt-5">
-  <div class="text-center mb-4">
-    <h1 class="display-4">Tentor</h1>
+<div class="container mt-1">
+  <div class="text-center mb-3">
+    <h1 class="display-3">Tentor</h1>
   </div>
 
   <% if (locals.data) { %>
@@ -11,7 +11,7 @@
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="card h-100 shadow">
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title text-primary text-center">
+          <h5 class="card-title text-(--darkblue) text-center">
             <%= tenta.course %>
           </h5>
 
@@ -31,12 +31,12 @@
           <div class="mt-auto">
             <a
               href="/students/<%= tenta.course %>"
-              class="btn btn-outline-primary btn-sm w-100 mt-2"
+              class="btn btn-outline-primary light-btn btn-sm w-100 mt-2"
               >View Students</a
             >
             <a
               href="/questions/edit/<%= tenta.course %>"
-              class="btn btn-outline-secondary btn-sm w-100 mt-2"
+              class="btn btn-outline-secondary white-btn btn-sm w-100 mt-2"
               >Edit Questions</a
             >
           </div>

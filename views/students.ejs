@@ -1,30 +1,63 @@
 <%- include('partials/header.ejs') %>
+  <style>
+    /* TODO this should be moved into styles.css and is very temporary */
+    body {
+      background-color: #BEC6D9;
+    }
+  
+    .light-btn {
+      background-color: #49546C;
+      border-color: #3e485c;
+      color: white;
+    }
+  
+    .light-btn:hover {
+      background-color: #3e485c;
+      border-color: #3e485c;
+      color: lightgray;
+    }
+  
+    .logout {
+  
+      background-color: crimson !important;
+      border-color: grey !important;
+    }
+  
+    .logout:hover {
+      background-color: red !important;
+      border-color: lightgray !important;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  </style>
 
-<div class="container mt-5">
-  <h1 class="display-4 text-center"><%= course %> - Download PDF</h1>
+  <div class="container mt-5">
+    <h1 class="display-4 text-center">
+      <%= course %> - Download PDF
+    </h1>
 
-  <% if (locals.students && locals.students.length > 0) { %>
-  <div class="list-group mt-4">
-    <% locals.students.forEach(e => { %>
-    <div
-      class="list-group-item d-flex justify-content-between align-items-center"
-    >
-      <span><%= e %></span>
-      <a
-        href="/uploads/<%= course %>_<%= e %>.pdf"
-        class="btn btn-primary"
-        download
-      >
-        Download
-      </a>
-    </div>
-    <% }) %>
+    <% if (locals.students && locals.students.length> 0) { %>
+      <div class="list-group mt-4">
+        <% locals.students.forEach(e=> { %>
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <%= e %>
+            </span>
+            <a href="/uploads/<%= course %>_<%= e %>.pdf" class="btn btn-primary light-btn" download>
+              Download
+            </a>
+          </div>
+          <% }) %>
+      </div>
+      <% } else { %>
+        <div class="alert alert-warning mt-4" role="alert">
+          No students are currently enrolled in this course.
+        </div>
+        <% } %>
   </div>
-  <% } else { %>
-  <div class="alert alert-warning mt-4" role="alert">
-    No students are currently enrolled in this course.
-  </div>
-  <% } %>
-</div>
 
-<%- include('partials/footer.ejs') %>
+  <%- include('partials/footer.ejs') %>

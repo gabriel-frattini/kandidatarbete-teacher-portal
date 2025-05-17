@@ -1,3 +1,67 @@
+:root {
+  --lightblue: #BEC6D9;
+  --blue: #49546C;
+  --blue-hover: #3e485c;
+  --darkblue: #071D4F;
+}
+
+/* Fix all these !importants, 
+this is horrible temp soluiton*/
+
+body {
+  background-color: var(--lightblue) !important;
+}
+
+.lightblue {
+  background-color: var(--lightblue) !important;
+}
+
+.blue {
+  background-color: var(--blue) !important;
+}
+
+.darkblue {
+  background-color: var(--darkblue) !important;
+}
+
+
+.light-btn {
+  background-color: var(--blue);
+  border-color: var(--darkblue);
+  color: white !important;
+}
+
+a.btn.btn-primary.light-btn2 {
+  background-color: aqua !important;
+}
+
+.light-btn:hover {
+  background-color: var(--blue-hover) !important;
+  border-color: var(--darkblue) !important;
+}
+
+.logout {
+  background-color: #dc3545 !important;
+  border-color: grey !important;
+}
+
+.logout:hover {
+  background-color: #b02936 !important;
+  border-color: #b02936 !important;
+}
+
+.white-btn {
+  background-color: white !important;
+  border-color: var(--blue);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.white-btn:hover {
+  color: var(--blue-hover);
+  background-color: lightgray !important;
+  border-color: var(--darkblue);
+}
 
 
 header {
@@ -8,7 +72,6 @@ header {
 .btn {
   margin: 0 5px;
 }
-
 
 input[readonly] {
   -webkit-text-fill-color: black !important;
